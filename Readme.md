@@ -19,7 +19,7 @@ Click on python icon under the Notebook section to create a new notebook. This w
 
 Once you have created a notebook, you can run your python programs. You can run a cell by clicking on the play button on the top menu of the notebook as shown below.
 
-!['hello-world](./images/hello-world.png)
+!['hello-world'](./images/hello-world.png)
 
 You can access launcher again by clicking on **"+"**.
 
