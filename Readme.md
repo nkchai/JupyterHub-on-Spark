@@ -77,4 +77,6 @@ In the launcher click on ***Terminal*** in the ***other*** section.
 
 This is like any other linux terminal, you can do everything that your normal profile terminal allows you to do.
 
-The main use of this section in this case is to ***clone and manage GitHub Repo's***. 
+The main use of this section in this case is to ***clone and manage GitHub Repo's***. Clone your repository via ssh using `git clone`.
+
+For more information on cloning your repo [click here](https://github.com/illinoistech-itm/jhajek/tree/master/itmd-521/git-tutorial).
