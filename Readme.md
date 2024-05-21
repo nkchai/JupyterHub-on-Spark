@@ -1,4 +1,4 @@
-# Jupyter Notebook with spark tutorial
+# Jupyter Notebook with Spark tutorial
 
 ### Login
 Follow below steps to access JupyterHub:
