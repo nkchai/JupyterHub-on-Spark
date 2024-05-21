@@ -1,4 +1,4 @@
-# JupyterHub tutorial
+# Jupyter Notebook with spark tutorial
 
 ### Login
 Go to the link `http://192.168.172.72:8000/` and sign in  with your username and password.
