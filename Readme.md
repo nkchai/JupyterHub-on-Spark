@@ -10,6 +10,7 @@ Once you are logged in, you will see a page like this:
 
 !['jupyter-lab'](./images/jupyter-lab.png)
 
+This is called **Launcher**
 The left pane is the File Browser, it is the area where you will see all you files and folders present in your account. You can make use of ***New Folder***, ***Upload Files*** buttons situated right below ***Run Menu***.
 
 Click on python icon under the Notebook section to create a new notebook. This will create a new notebook in the ***current directory***. If you want to create a new notebook in specific directory, navigate to that folder and then click on python icon under notbook section.
@@ -19,6 +20,8 @@ Click on python icon under the Notebook section to create a new notebook. This w
 Once you have created a notebook, you can run your python programs. You can run a cell by clicking on the play button on the top menu of the notebook as shown below.
 
 !['hello-world](./images/hello-world.png)
+
+You can access launcher again by clicking on **"+"**.
 
 ### Running Spark Jobs
 
@@ -64,4 +67,14 @@ Once you create a session spark master will ***treat it as a job and assigns res
 ```
 spark.stop()
 ```
-<code style="color : red">***Note you must stop your session before closing the notebook with `spark.stop()`. This helps to free up resources assigned to your job, such that other jobs in the queue can make use of them.*** </code>
+<code style="color : red">***Note: you must stop your session before closing the notebook with `spark.stop()`. This helps to free up resources assigned to your job, such that other jobs in the queue can make use of them.*** </code>
+
+### Terminal
+
+In the launcher click on ***Terminal*** in the ***other*** section.
+
+![Terminal](/images/terminal.png)
+
+This is like any other linux terminal, you can do everything that your normal profile terminal allows you to do.
+
+The main use of this section in this case is to ***clone and manage GitHub Repo's***. 
