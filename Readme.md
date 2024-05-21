@@ -1,6 +1,11 @@
 # Jupyter Notebook with spark tutorial
 
 ### Login
+Follow below steps to access JupyterHub:
+1. Connect the school VPN visit https://vpn.iit.edu and download the university VPN (cisco) software (watch out your will have to authenticate via your second factor).
+2. Connect to the host `vpn.iit.edu` in the vpn client.
+3. You need to be on the VPN to access any resources related to the cluster.
+
 Go to the link `http://192.168.172.72:8000/` and sign in  with your username and password.
 
 !['login page'](./images/login-image.png)
