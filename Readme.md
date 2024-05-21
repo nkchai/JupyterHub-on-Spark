@@ -60,6 +60,8 @@ spark = SparkSession.builder.appName("Your App Name")\
 ```
 The above code will create a new spark session with the configurations required to connect to S3 bucket. You can add your own configurations as need with `conf.set()`.
 
+This configuration `conf.setMaster("spark://sm.service.consul:7077")` is the one that sends the jobs to the cluster, without this line the spark job will run on local compute.
+
 Now, you can make use of the `SparkSession` object created in this case `spark`, in the forthcoming cells to run the spark jobs.
 
 Once you create a session spark master will ***treat it as a job and assigns resources***. You need to stop the session as shown below to create a new session or once your job is completed.
@@ -80,3 +82,12 @@ This is like any other linux terminal, you can do everything that your normal pr
 The main use of this section in this case is to ***clone and manage GitHub Repo's***. Clone your repository via ssh using `git clone`.
 
 For more information on cloning your repo [click here](https://github.com/illinoistech-itm/jhajek/tree/master/itmd-521/git-tutorial).
+
+### Installing Python libraries
+
+The jupyter notebook generated is like any other jupyter notebook, you can install any extenal libraries with `pip`. Example:
+
+```
+pip install pandas
+```
+**Note:** Only spark jobs will be sent to the spark cluster, any code other than spark will be run on local compute.
