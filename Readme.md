@@ -73,7 +73,7 @@ Once you create a session spark master will ***treat it as a job and assigns res
 ```
 spark.stop()
 ```
-<code style="color : red">***Note: you must stop your session before closing the notebook with `spark.stop()`. This helps to free up resources assigned to your job, such that other jobs in the queue can make use of them.*** </code>
+<css style="color : red">***Note: You must stop your session before closing the notebook with `spark.stop()`. This helps to free up resources assigned to your job, such that other jobs in the queue can make use of them.*** </css>
 
 ### Terminal
 
