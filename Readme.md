@@ -27,9 +27,30 @@ Once you have created a notebook, you can run your python programs. You can run 
 
 You can access launcher again by clicking on **"+"**.
 
-### Running Spark Jobs
 
-The notebook has the ability to automatically send all the jobs to the spark master. Run the below snippet of code in a cell to create a spark session on the spark master with connection to the Minio Bucket.
+### Terminal
+
+In the launcher click on ***Terminal*** in the ***other*** section.
+
+![Terminal](./images/terminal.png)
+
+This is like any other linux terminal, you can do everything that your normal profile terminal allows you to do.
+
+The main use of this section in this case is to ***clone and manage GitHub Repo's***. Clone your repository via ssh using `git clone`.
+
+For more information on cloning your repo [click here](https://github.com/illinoistech-itm/jhajek/tree/master/itmd-521/git-tutorial).
+
+### Installing Python libraries
+
+The jupyter notebook generated is like any other jupyter notebook, you can install any extenal libraries with `pip`. Example:
+
+```
+pip install pandas
+```
+**Note:** Only spark jobs will be sent to the spark cluster, any code other than spark will be run on local compute.
+
+### Creating a Spark Session 
+Run the below snippet of code in a cell to create a spark session on the spark master with connection to the Minio Bucket.
 
 ```
 from pyspark import SparkConf
@@ -41,7 +62,7 @@ import os
 import sys
 
 conf = SparkConf()
-conf.set('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:3.2.0')
+conf.set('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:3.2.3')
 conf.set('spark.hadoop.fs.s3a.aws.credentials.provider', 'org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider')
 
 conf.set('spark.hadoop.fs.s3a.access.key', os.getenv('ACCESSKEY'))
@@ -74,24 +95,3 @@ Once you create a session spark master will ***treat it as a job and assigns res
 spark.stop()
 ```
 <span style="font-size:1.2em">***Note: You must stop your session before closing the notebook with `spark.stop()`. This helps to free up resources assigned to your job, such that other jobs in the queue can make use of them.*** </span>
-
-### Terminal
-
-In the launcher click on ***Terminal*** in the ***other*** section.
-
-![Terminal](/images/terminal.png)
-
-This is like any other linux terminal, you can do everything that your normal profile terminal allows you to do.
-
-The main use of this section in this case is to ***clone and manage GitHub Repo's***. Clone your repository via ssh using `git clone`.
-
-For more information on cloning your repo [click here](https://github.com/illinoistech-itm/jhajek/tree/master/itmd-521/git-tutorial).
-
-### Installing Python libraries
-
-The jupyter notebook generated is like any other jupyter notebook, you can install any extenal libraries with `pip`. Example:
-
-```
-pip install pandas
-```
-**Note:** Only spark jobs will be sent to the spark cluster, any code other than spark will be run on local compute.
