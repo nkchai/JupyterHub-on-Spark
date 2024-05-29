@@ -54,7 +54,9 @@ splitDF.coalesce(1).write.mode("overwrite").option("header","true").csv("s3a://y
 
 As, we are not submitting the job's via terminal there is no way we have use no hup directly. To get around this issue, we will use `%%capture` magic to capture the output.
 
-Run the below code in a new cell. `%%capture test` has been added in the first line
+Run the below code in a new cell. `%%capture test` has been added in the first line.
+
+***After, running the below cell of code immideatly save the notebook, put your computer to sleep (or) shutdown and come back later when you think your job might be completed.***
 
 ```
 %%capture test
@@ -89,10 +91,9 @@ splitDF.printSchema()
 splitDF.show()
 ```
 
-After, running the above code, you may not see the output tables as it's automatically send the output to `test`.
-
-In order to see the captured output call the `test` as shown below in a new cell.
+Now, open the JupyterHub and your notebook, check your output by calling `test` as shown below.
 
 ```
 test()
 ```
+
