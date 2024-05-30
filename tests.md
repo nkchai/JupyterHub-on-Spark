@@ -2,6 +2,59 @@
 All test's and their contents are derived from itmd-521 week-13 cluster assignment.
 
 Please proceed with the test's in the given order.
+
+
+### Creating a Spark Session 
+Run the below snippet of code in a cell to create a spark session on the spark master with connection to the Minio Bucket.
+
+```
+from pyspark import SparkConf
+from pyspark.sql import SparkSession
+
+
+# Removing hard coded password - using os module to import them
+import os
+import sys
+
+conf = SparkConf()
+conf.set('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:3.2.3')
+conf.set('spark.hadoop.fs.s3a.aws.credentials.provider', 'org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider')
+
+conf.set('spark.hadoop.fs.s3a.access.key', os.getenv('ACCESSKEY'))
+conf.set('spark.hadoop.fs.s3a.secret.key', os.getenv('SECRETKEY'))
+# Configure these settings
+# https://medium.com/@dineshvarma.guduru/reading-and-writing-data-from-to-minio-using-spark-8371aefa96d2
+conf.set("spark.hadoop.fs.s3a.path.style.access", "true")
+conf.set("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
+# https://github.com/minio/training/blob/main/spark/taxi-data-writes.py
+# https://spot.io/blog/improve-apache-spark-performance-with-the-s3-magic-committer/
+conf.set('spark.hadoop.fs.s3a.committer.magic.enabled','true')
+conf.set('spark.hadoop.fs.s3a.committer.name','magic')
+# Internal IP for S3 cluster proxy
+conf.set("spark.hadoop.fs.s3a.endpoint", "http://system54.rice.iit.edu")
+# Send jobs to the Spark Cluster
+conf.setMaster("spark://sm.service.consul:7077")
+
+spark = SparkSession.builder.appName("Your App Name")\
+    .config('spark.driver.host','ubuntu-infra-vm0.service.consul').config(conf=conf).getOrCreate()
+```
+The above code will create a new spark session with the configurations required to connect to S3 bucket. You can add your own configurations as need with `conf.set()`.
+
+This configuration `conf.setMaster("spark://sm.service.consul:7077")` is the one that sends the jobs to the cluster, without this line the spark job will run on local compute.
+
+Now, you can make use of the `SparkSession` object created in this case `spark`, in the forthcoming cells to run the spark jobs.
+
+Once you create a session spark master will ***treat it as a job and assigns resources***. You need to stop the session as shown below to create a new session or once your job is completed.
+
+```
+spark.stop()
+```
+**It is recommended that you restart the kernel once you stop the session before starting a new session by clicking restart kernel situtated right of stop button (or) from kernel menu, as it clears all the cached variables.**
+
+<span style="font-size:1.2em">***Note: You must stop your session before closing the notebook with `spark.stop()`, if you didn't have any spark jobs running. This helps to free up resources assigned to your job, such that other jobs in the queue can make use of them.*** </span>
+
+
+
 ## Test 1 - Reading From MinIO
 
 In this Test, you will try to read a file from the minio bucket, do some transformations and display the results. 
@@ -40,6 +93,14 @@ splitDF = df.withColumn('WeatherStation', df['_c0'].substr(5, 6)) \
 splitDF.printSchema()
 splitDF.show()
 ```
+In another cell, run the following code
+
+```
+avg_df = splitDF.select(month(col('ObservationDate')).alias('Month'),year(col('ObservationDate')).alias('Year'),col('AirTemperature').alias('Temperature'))\
+             .groupBy('Month','Year').agg(avg('Temperature'),stddev('Temperature')).orderBy('Year','Month')
+
+avg_df.show()
+```
 
 ## Test 2 - Writing to MinIO
     
@@ -60,35 +121,10 @@ Run the below code in a new cell. `%%capture test` has been added in the first l
 
 ```
 %%capture test
+avg_df = splitDF.select(month(col('ObservationDate')).alias('Month'),year(col('ObservationDate')).alias('Year'),col('AirTemperature').alias('Temperature'))\
+             .groupBy('Month','Year').agg(avg('Temperature'),stddev('Temperature')).orderBy('Year','Month')
 
-from pyspark.sql.types import *
-from pyspark.sql.functions import *
-
-
-df = spark.read.csv('s3a://itmd521/50.txt')
-
-splitDF = df.withColumn('WeatherStation', df['_c0'].substr(5, 6)) \
-.withColumn('WBAN', df['_c0'].substr(11, 5)) \
-.withColumn('ObservationDate',to_date(df['_c0'].substr(16,8), 'yyyyMMdd')) \
-.withColumn('ObservationHour', df['_c0'].substr(24, 4).cast(IntegerType())) \
-.withColumn('Latitude', df['_c0'].substr(29, 6).cast('float') / 1000) \
-.withColumn('Longitude', df['_c0'].substr(35, 7).cast('float') / 1000) \
-.withColumn('Elevation', df['_c0'].substr(47, 5).cast(IntegerType())) \
-.withColumn('WindDirection', df['_c0'].substr(61, 3).cast(IntegerType())) \
-.withColumn('WDQualityCode', df['_c0'].substr(64, 1).cast(IntegerType())) \
-.withColumn('SkyCeilingHeight', df['_c0'].substr(71, 5).cast(IntegerType())) \
-.withColumn('SCQualityCode', df['_c0'].substr(76, 1).cast(IntegerType())) \
-.withColumn('VisibilityDistance', df['_c0'].substr(79, 6).cast(IntegerType())) \
-.withColumn('VDQualityCode', df['_c0'].substr(86, 1).cast(IntegerType())) \
-.withColumn('AirTemperature', df['_c0'].substr(88, 5).cast('float') /10) \
-.withColumn('ATQualityCode', df['_c0'].substr(93, 1).cast(IntegerType())) \
-.withColumn('DewPoint', df['_c0'].substr(94, 5).cast('float')) \
-.withColumn('DPQualityCode', df['_c0'].substr(99, 1).cast(IntegerType())) \
-.withColumn('AtmosphericPressure', df['_c0'].substr(100, 5).cast('float')/ 10) \
-.withColumn('APQualityCode', df['_c0'].substr(105, 1).cast(IntegerType())).drop('_c0')
-
-splitDF.printSchema()
-splitDF.show()
+avg_df.show()
 ```
 
 Now, open the JupyterHub and your notebook, check your output by calling `test` as shown below.
@@ -96,4 +132,15 @@ Now, open the JupyterHub and your notebook, check your output by calling `test` 
 ```
 test()
 ```
+
+## Test 4 - Spark Dynamic Allocation
+
+The default form of resource allocation is  static resource allocation i.e resources are assigned when start the session, and removed after your session is stopped/killed. 
+
+Spark has inbuilt method called dynamic allocation which allocates resources based on the actual job and automatically removes the assigned resources once the job is finished. 
+
+Your session will remain active until it was stopped/killed but no resources will be assigned until you run a job. So, even if someone forgets to stop the session without any job running the spark won't assign the resources.
+
+This test will helps us to compare both static and dynamic allocation.
+
 
