@@ -113,7 +113,7 @@ splitDF.coalesce(1).write.mode("overwrite").option("header","true").csv("s3a://y
 ```
 ## Test 3 - %%Capture (No-Hup)
 
-As, we are not submitting the job's via terminal there is no way we have use no hup directly. To get around this issue, we will use `%%capture` magic to capture the output.
+As, we are not submitting the job's via terminal there is no way to use no hup directly. To get around this issue, we will use `%%capture` magic to capture the output.
 
 Run the below code in a new cell. `%%capture test` has been added in the first line.
 
