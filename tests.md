@@ -144,3 +144,45 @@ Your session will remain active until it was stopped/killed but no resources wil
 This test will helps us to compare both static and dynamic allocation.
 
 
+**Before proceeding with this test if you have an existing spark session stop it with `spark.stop()` and restart the kernel.**
+
+Creating a new spark session with dynamic allocation enabled with the below snippet of code.
+
+```
+from pyspark import SparkConf
+from pyspark.sql import SparkSession
+
+
+# Removing hard coded password - using os module to import them
+import os
+import sys
+
+conf = SparkConf()
+conf.set('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:3.2.3')
+conf.set('spark.hadoop.fs.s3a.aws.credentials.provider', 'org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider')
+
+conf.set('spark.hadoop.fs.s3a.access.key', os.getenv('ACCESSKEY'))
+conf.set('spark.hadoop.fs.s3a.secret.key', os.getenv('SECRETKEY'))
+# Configure these settings
+# https://medium.com/@dineshvarma.guduru/reading-and-writing-data-from-to-minio-using-spark-8371aefa96d2
+conf.set("spark.hadoop.fs.s3a.path.style.access", "true")
+conf.set("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
+# https://github.com/minio/training/blob/main/spark/taxi-data-writes.py
+# https://spot.io/blog/improve-apache-spark-performance-with-the-s3-magic-committer/
+conf.set('spark.hadoop.fs.s3a.committer.magic.enabled','true')
+conf.set('spark.hadoop.fs.s3a.committer.name','magic')
+# Internal IP for S3 cluster proxy
+conf.set("spark.hadoop.fs.s3a.endpoint", "http://system54.rice.iit.edu")
+# Send jobs to the Spark Cluster
+conf.setMaster("spark://sm.service.consul:7077")
+
+conf.set("spark.dynamicAllocation.enabled","true")
+conf.set("spark.dynamicAllocation.shuffleTracking.enabled","true")
+
+spark = SparkSession.builder.appName("Your App Name")\
+    .config('spark.driver.host','ubuntu-infra-vm0.service.consul').config(conf=conf).getOrCreate()
+
+```
+The config lines `conf.set("spark.dynamicAllocation.enabled","true")` and `conf.set("spark.dynamicAllocation.shuffleTracking.enabled","true")` will tell the spark to enable dynamic allocation.
+
+**Now repeat test's 1,2,3 and observe how spark is allocating resources for each test.**
