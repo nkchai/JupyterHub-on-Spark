@@ -3,6 +3,7 @@ All test's and their contents are derived from itmd-521 week-13 cluster assignme
 
 Please proceed with the test's in the given order.
 
+**Please take screenshots of all the outputs**
 
 ### Creating a Spark Session 
 Run the below snippet of code in a cell to create a spark session on the spark master with connection to the Minio Bucket.
