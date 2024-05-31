@@ -162,8 +162,8 @@ conf = SparkConf()
 conf.set('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:3.2.3')
 conf.set('spark.hadoop.fs.s3a.aws.credentials.provider', 'org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider')
 
-conf.set('spark.hadoop.fs.s3a.access.key', os.getenv('ACCESSKEY'))
-conf.set('spark.hadoop.fs.s3a.secret.key', os.getenv('SECRETKEY'))
+conf.set('spark.hadoop.fs.s3a.access.key',{your ACCESS KEY})
+conf.set('spark.hadoop.fs.s3a.secret.key', {Your SECRET KEY})
 # Configure these settings
 # https://medium.com/@dineshvarma.guduru/reading-and-writing-data-from-to-minio-using-spark-8371aefa96d2
 conf.set("spark.hadoop.fs.s3a.path.style.access", "true")
@@ -181,7 +181,7 @@ conf.set("spark.dynamicAllocation.enabled","true")
 conf.set("spark.dynamicAllocation.shuffleTracking.enabled","true")
 
 spark = SparkSession.builder.appName("Your App Name")\
-    .config('spark.driver.host','ubuntu-infra-vm0.service.consul').config(conf=conf).getOrCreate()
+    .config('spark.driver.host','spark-edge.service.consul').config(conf=conf).getOrCreate()
 
 ```
 The config lines `conf.set("spark.dynamicAllocation.enabled","true")` and `conf.set("spark.dynamicAllocation.shuffleTracking.enabled","true")` will tell the spark to enable dynamic allocation.
