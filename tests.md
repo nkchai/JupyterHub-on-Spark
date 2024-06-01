@@ -8,6 +8,12 @@ Please proceed with the test's in the given order.
 ### Creating a Spark Session 
 Run the below snippet of code in a cell to create a spark session on the spark master with connection to the Minio Bucket.
 
+The credentials for you S3 bucket will be in a file named `creds.txt `located in your spark-edge server home directory. Issue the below command in your home directory to view your credentials.
+```
+cat creds.txt
+```
+ The hawk user id is your `ACCESSKEY` and random string of letters is your `SECRETKEY`. 
+
 ```
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
@@ -21,8 +27,8 @@ conf = SparkConf()
 conf.set('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:3.2.3')
 conf.set('spark.hadoop.fs.s3a.aws.credentials.provider', 'org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider')
 
-conf.set('spark.hadoop.fs.s3a.access.key', {your ACCESSKEY})
-conf.set('spark.hadoop.fs.s3a.secret.key', {your SECRETKEY})
+conf.set('spark.hadoop.fs.s3a.access.key', 'Your ACCESSKEY')
+conf.set('spark.hadoop.fs.s3a.secret.key', 'Your SECRETKEY')
 # Configure these settings
 # https://medium.com/@dineshvarma.guduru/reading-and-writing-data-from-to-minio-using-spark-8371aefa96d2
 conf.set("spark.hadoop.fs.s3a.path.style.access", "true")
@@ -169,8 +175,8 @@ conf = SparkConf()
 conf.set('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:3.2.3')
 conf.set('spark.hadoop.fs.s3a.aws.credentials.provider', 'org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider')
 
-conf.set('spark.hadoop.fs.s3a.access.key',{your ACCESS KEY})
-conf.set('spark.hadoop.fs.s3a.secret.key', {Your SECRET KEY})
+conf.set('spark.hadoop.fs.s3a.access.key','Your ACCESS KEY')
+conf.set('spark.hadoop.fs.s3a.secret.key', 'Your SECRET KEY')
 # Configure these settings
 # https://medium.com/@dineshvarma.guduru/reading-and-writing-data-from-to-minio-using-spark-8371aefa96d2
 conf.set("spark.hadoop.fs.s3a.path.style.access", "true")
