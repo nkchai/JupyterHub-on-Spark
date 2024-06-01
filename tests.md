@@ -1,14 +1,10 @@
 # JupyterHub Test
-All test's and their contents are derived from itmd-521 week-13 cluster assignment.
+All test's and their contents are derived from itmd-521 week-13 cluster assignment.Please proceed with the test's in the given order and **please take screenshots of all the outputs**
 
-Please proceed with the test's in the given order.
-
-**Please take screenshots of all the outputs**
+### ***Please stop your with `spark.stop()` spark session after completing the test's.***
 
 ### Creating a Spark Session 
 Run the below snippet of code in a cell to create a spark session on the spark master with connection to the Minio Bucket.
-
-
 
 ```
 from pyspark import SparkConf
@@ -74,7 +70,7 @@ spark.stop()
 ```
 **It is recommended that you restart the kernel once you stop the session before starting a new session by clicking restart kernel situtated right of stop button (or) from kernel menu, as it clears all the cached variables.**
 
-> <span style="font-size:1.2em">***Note: You must stop your session before closing the notebook with `spark.stop()`, if you didn't have any spark jobs running. This helps to free up resources assigned to your job, such that other jobs in the queue can make use of them.*** </span>
+### ***Note: You must stop your session before closing the notebook with `spark.stop()`, if you didn't have any spark jobs running. This helps to free up resources assigned to your job, such that other jobs in the queue can make use of them!!!!!!!!*** 
 
 ## Logs
 
