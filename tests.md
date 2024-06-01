@@ -8,27 +8,30 @@ Please proceed with the test's in the given order.
 ### Creating a Spark Session 
 Run the below snippet of code in a cell to create a spark session on the spark master with connection to the Minio Bucket.
 
-The credentials for you S3 bucket will be in a file named `creds.txt `located in your spark-edge server home directory. Issue the below command in your home directory to view your credentials.
-```
-cat creds.txt
-```
- The hawk user id is your `ACCESSKEY` and random string of letters is your `SECRETKEY`. 
+
 
 ```
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
 
 
-# Removing hard coded password - using os module to import them
+# Removing hard coded password - using os module & open to import them from creds.txt file
 import os
 import sys
+
+try:
+    creds_file = (open(f"/home/{os.getenv('USER')}/creds.txt", "r")).read().strip().split(",")
+    accesskey,secretkey = creds_file[0],creds_file[1]
+except:
+    print("File not found, you can't access minio")
+    accesskey,secretkey = "",""
 
 conf = SparkConf()
 conf.set('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:3.2.3')
 conf.set('spark.hadoop.fs.s3a.aws.credentials.provider', 'org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider')
 
-conf.set('spark.hadoop.fs.s3a.access.key', 'Your ACCESSKEY')
-conf.set('spark.hadoop.fs.s3a.secret.key', 'Your SECRETKEY')
+conf.set('spark.hadoop.fs.s3a.access.key', accesskey)
+conf.set('spark.hadoop.fs.s3a.secret.key', secretkey)
 # Configure these settings
 # https://medium.com/@dineshvarma.guduru/reading-and-writing-data-from-to-minio-using-spark-8371aefa96d2
 conf.set("spark.hadoop.fs.s3a.path.style.access", "true")
@@ -43,11 +46,24 @@ conf.set("spark.hadoop.fs.s3a.endpoint", "http://system54.rice.iit.edu")
 conf.setMaster("spark://sm.service.consul:7077")
 
 spark = SparkSession.builder.appName("Your App Name")\
-    .config('spark.driver.host','ubuntu-infra-vm0.service.consul').config(conf=conf).getOrCreate()
+    .config('spark.driver.host','spark-edge.service.consul').config(conf=conf).getOrCreate()
 ```
 The above code will create a new spark session with the configurations required to connect to S3 bucket. You can add your own configurations as need with `conf.set()`.
 
 This configuration `conf.setMaster("spark://sm.service.consul:7077")` is the one that sends the jobs to the cluster, without this line the spark job will run on local compute.
+
+Since, we are not lauching our session from the user terminal the notebook does not have access to the environment variables present in user's `.bashrc`. So, in order to get around this and not to hard code the passwords, the below block of code is used.
+
+```
+try:
+    creds_file = (open(f"/home/{os.getenv('USER')}/creds.txt", "r")).read().strip().split(",")
+    accesskey,secretkey = creds_file[0],creds_file[1]
+except:
+    print("File not found, you can't access minio")
+    accesskey,secretkey = "",""
+```
+
+In the `try` block we are trying to open the `creds.txt` file that's present in the user's home folder and read the contents of it into two varibales `accesskey` and `secretkey` these variables are then used in S3 auth configuration.
 
 Now, you can make use of the `SparkSession` object created in this case `spark`, in the forthcoming cells to run the spark jobs.
 
@@ -167,16 +183,24 @@ from pyspark import SparkConf
 from pyspark.sql import SparkSession
 
 
-# Removing hard coded password - using os module to import them
+# Removing hard coded password - using os module & open to import them from creds.txt file
+
 import os
 import sys
+
+try:
+    creds_file = (open(f"/home/{os.getenv('USER')}/creds.txt", "r")).read().strip().split(",")
+    accesskey,secretkey = creds_file[0],creds_file[1]
+except:
+    print("File not found, you can't access minio")
+    accesskey,secretkey = "",""
 
 conf = SparkConf()
 conf.set('spark.jars.packages', 'org.apache.hadoop:hadoop-aws:3.2.3')
 conf.set('spark.hadoop.fs.s3a.aws.credentials.provider', 'org.apache.hadoop.fs.s3a.SimpleAWSCredentialsProvider')
 
-conf.set('spark.hadoop.fs.s3a.access.key','Your ACCESS KEY')
-conf.set('spark.hadoop.fs.s3a.secret.key', 'Your SECRET KEY')
+conf.set('spark.hadoop.fs.s3a.access.key', accesskey)
+conf.set('spark.hadoop.fs.s3a.secret.key', secretkey)
 # Configure these settings
 # https://medium.com/@dineshvarma.guduru/reading-and-writing-data-from-to-minio-using-spark-8371aefa96d2
 conf.set("spark.hadoop.fs.s3a.path.style.access", "true")
