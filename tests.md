@@ -201,3 +201,4 @@ The config lines `conf.set("spark.dynamicAllocation.enabled","true")` and `conf.
 
 **Now repeat test's 1,2,3 and observe how spark is allocating resources for each test.**
 
+## **** Please complete this survey https://forms.gle/5LUajprAPEuWLuWg9 ****
