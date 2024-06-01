@@ -225,4 +225,7 @@ The config lines `conf.set("spark.dynamicAllocation.enabled","true")` and `conf.
 
 **Now repeat test's 1,2,3 and observe how spark is allocating resources for each test.**
 
+
+### ***Note: You must stop your session before closing the notebook with `spark.stop()`, if you didn't have any spark jobs running. This helps to free up resources assigned to your job, such that other jobs in the queue can make use of them.***
+----------------------------
 ## **** Please complete this survey https://forms.gle/5LUajprAPEuWLuWg9 ****
