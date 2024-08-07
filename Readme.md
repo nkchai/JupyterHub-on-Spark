@@ -6,7 +6,7 @@ SSH into `spark-edge`.Your credentails are saved under `login.txt` file on ypur 
 
 Your hawk id username is your username and random string of letters is your password.
 
-> **Note: You only need to SSH into your `spark-edge` once to get the credentials.You can store this credentails some where safe as you can acces the terminal inside the JupyterHub itself.**
+> **Note: You only need to SSH into your `spark-edge` once to get the credentials.You can store this credentails some where safe as you can access the terminal inside the JupyterHub itself.**
 
 To access your `spark-edge`:
 1. Connect the school VPN visit https://vpn.iit.edu and download the university VPN (cisco) software (watch out your will have to authenticate via your second factor).
