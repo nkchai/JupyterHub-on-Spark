@@ -226,6 +226,11 @@ The code shown below write the `splitDF` as a single partioned csv file to a S3 
 ```
 splitDF.coalesce(1).write.mode("overwrite").option("header","true").csv("s3a://yourbucketname/hubtest1.csv")
 ```
+
+Please refer to the below cheat sheet for read and write file options. The directory path will be the path of the MinIO S3 bucket.
+
+!['cheat-sheet'](images/cheat-sheet.png)
+
 ### %%Capture (No-Hup)
 
 If the job submitted takes some time to run we can generally use nohup to redirect the ouput without having us to keep the ssh session alive. As, we are not submitting the job's via terminal there is no way to use no hup directly. To get around this issue, we will use `%%capture` magic to capture the output.
