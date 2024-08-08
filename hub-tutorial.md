@@ -101,6 +101,12 @@ You can restart the jupyter server by clicking on the hub control panel present 
 ## Running Spark Jobs
 
 ### Creating a Spark Session 
+
+Access Spark Web UI @ http://system76.rice.iit.edu/
+
+Access MinIO @ https://system54.rice.iit.edu/minio/ui/browser
+
+
 Run the below snippet of code in a cell to create a spark session on the spark master with connection to the Minio Bucket.
 
 ```
