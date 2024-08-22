@@ -111,3 +111,15 @@ Replace the `ExecStart` with paths where hub and `jupyterhub_config.py` are loca
 There are two ways to install extensions. You can use the extensions menu in hub UI to view and install extensions directly but these installation are per user not reflected globally. 
 
 If an extension needs to installed globally use `pip` with `sudo` from the controller to install them gloablly. Use the same method to install any server side extension requirements.
+
+Installing per user :  
+
+```
+pip install --upgrade jupyterlab jupyterlab-git
+```
+Installing globally :
+
+```
+sudo pip install --upgrade jupyterlab jupyterlab-git
+```
+> The example shown above installed native git source control for the Hub.
