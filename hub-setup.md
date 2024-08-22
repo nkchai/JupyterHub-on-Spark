@@ -122,4 +122,4 @@ Installing globally :
 ```
 sudo pip install --upgrade jupyterlab jupyterlab-git
 ```
-> The example shown above installed native git source control for the Hub.
+> The example shown above installes native git source control for the Hub.
