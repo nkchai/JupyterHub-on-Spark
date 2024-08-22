@@ -82,3 +82,26 @@ c.Authenticator.admin_users = { 'hardway_admin' }
 ```
 
 More configuration options can be found [here](https://jupyterhub.readthedocs.io/en/stable/reference/config-reference.html).
+
+## Run Jupyterhub as a Service
+
+Below is the service file for the hub
+
+```
+[Unit]
+Description=jupyterhub
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+#User=jupyterhub
+#Group=jupyterhub
+Type=simple
+ExecStart=/usr/local/bin/jupyterhub -f /home/controller/jupyterhub_config.py --ip 192.168.172.26
+
+[Install]
+WantedBy=multi-user.target
+```
+Replace the `ExecStart` with paths where hub and `jupyterhub_config.py` are located.
+
+> If you do modification done to the config file after the hub service has been started. The service needs to be restarted to succesfully load the new config.
