@@ -35,7 +35,7 @@ If you plan to run notebook servers locally, you will need to install
 
 ### Run the Hub server
 
-Use `sudo` to run the below commands.
+Use `sudo` to run the below commands for multi user access.
 
 To start the Hub server, run the command:
 
