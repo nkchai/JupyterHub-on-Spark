@@ -107,3 +107,7 @@ Replace the `ExecStart` with paths where hub and `jupyterhub_config.py` are loca
 > If any modification has been done to the config file after the hub service has been started. The service needs to be restarted to succesfully load the new config.
 
 ## Extensions
+
+There are two ways to install extensions. You can use the extensions menu in hub UI to view and install extensions directly but these installation are per user not reflected globally. 
+
+If an extension needs to installed globally use `pip` with `sudo` from the controller to install them gloablly. Use the same method to install any server side extension requirements.
