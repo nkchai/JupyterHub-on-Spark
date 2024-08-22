@@ -69,3 +69,16 @@ To generate a default config file with settings and descriptions:
 
     jupyterhub --generate-config
 
+Add the below lines of code to the `jupyterhub_config.py`  to allow all users to login into the hub.
+
+```
+c.Authenticator.allow_all = True
+```
+
+To enable admin access add the below line to the `jupyterhub_config.py` file and specify which users are admins
+
+```
+c.Authenticator.admin_users = { 'hardway_admin' }
+```
+
+More configuration options can be found [here](https://jupyterhub.readthedocs.io/en/stable/reference/config-reference.html).
