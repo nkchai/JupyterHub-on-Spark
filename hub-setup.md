@@ -104,4 +104,4 @@ WantedBy=multi-user.target
 ```
 Replace the `ExecStart` with paths where hub and `jupyterhub_config.py` are located.
 
-> If you do modification done to the config file after the hub service has been started. The service needs to be restarted to succesfully load the new config.
+> If any modification has been done to the config file after the hub service has been started. The service needs to be restarted to succesfully load the new config.
