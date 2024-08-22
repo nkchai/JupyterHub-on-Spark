@@ -102,6 +102,8 @@ ExecStart=/usr/local/bin/jupyterhub -f /home/controller/jupyterhub_config.py --i
 [Install]
 WantedBy=multi-user.target
 ```
-Replace the `ExecStart` with paths where hub and `jupyterhub_config.py` are located.
+Replace the `ExecStart` with paths where hub and `jupyterhub_config.py` are located. The `-f` flag is used to load the `jupyterhub_config.py` file from a specified path.
 
 > If any modification has been done to the config file after the hub service has been started. The service needs to be restarted to succesfully load the new config.
+
+## Extensions
