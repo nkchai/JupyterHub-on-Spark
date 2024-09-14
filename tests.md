@@ -224,4 +224,3 @@ The config lines `conf.set("spark.dynamicAllocation.enabled","true")` and `conf.
 
 ### ***Note: You must stop your session before closing the notebook with `spark.stop()`, if you didn't have any spark jobs running. This helps to free up resources assigned to your job, such that other jobs in the queue can make use of them.***
 ----------------------------
-## **** Please complete this survey https://forms.gle/5LUajprAPEuWLuWg9 ****
