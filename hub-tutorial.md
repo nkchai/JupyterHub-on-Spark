@@ -238,6 +238,7 @@ You can check the contents of the bucket by logging into Minio @ https://system5
 Please refer to the below cheat sheet for read and write file options. The directory path will be the path of the MinIO S3 bucket.
 
 !['cheat-sheet'](images/cheat-sheet.png)
+IMG source[https://builtin.com/articles/spark-read-csv]
 
 ### %%Capture (No-Hup)
 
