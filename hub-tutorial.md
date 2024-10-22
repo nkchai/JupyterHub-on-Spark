@@ -266,4 +266,6 @@ You can close your notebook and re login after the job has completed. To check y
 test()
 ```
 
+### ***Note: You must stop your session before closing the notebook with `spark.stop()`, if you didn't have any spark jobs running. This helps to free up resources assigned to your job, such that other jobs in the queue can make use of them.***
+
 ## [Click here to proceed with Dynamic Allocation](https://github.com/nkchai/JupyterHub-on-Spark/blob/main/tests.md#test-4---spark-dynamic-allocation)
