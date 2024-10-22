@@ -102,7 +102,7 @@ You can restart the jupyter server by clicking on the hub control panel present 
 
 ### Creating a Spark Session 
 
-Access Spark Web UI @ http://system76.rice.iit.edu/
+Access Spark Web UI @ http://system88.rice.iit.edu/
 
 Access MinIO @ https://system54.rice.iit.edu/minio/ui/browser
 
