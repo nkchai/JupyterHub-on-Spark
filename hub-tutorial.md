@@ -266,4 +266,4 @@ You can close your notebook and re login after the job has completed. To check y
 test()
 ```
 
-##[Click here to proceed with Dynamic Allocation](https://github.com/nkchai/JupyterHub-on-Spark/blob/main/tests.md#test-4---spark-dynamic-allocation)
+## [Click here to proceed with Dynamic Allocation](https://github.com/nkchai/JupyterHub-on-Spark/blob/main/tests.md#test-4---spark-dynamic-allocation)
