@@ -168,6 +168,43 @@ The above code will create a new spark session with the configurations required 
 
 This configuration `conf.setMaster("spark://sm.service.consul:7077")` is the one that sends the jobs to the cluster, without this line the spark job will run on local compute.
 
+The configurations `conf.set("spark.driver.memory","4g")` `conf.set("spark.executor.memory","4g")` are the ones that set the driver and executor memory.
+
+**Driver Memory**: Think of the driver as the "brain" behind your Spark application. Its role is to manage and coordinate the entire job. The driver memory refers to the memory assigned to the driver process, which is responsible for tasks such as creating execution plans, tracking data, and gathering results.
+
+- Impact: If the driver memory is too low, it might run out of memory, causing your Spark application to fail. If it's too high, it may lead to inefficient memory usage and affect the performance of other processes running on the same machine.
+
+The driver memory should be higher when:
+
+- Your Spark application involves complex and resource-intensive tasks that require significant memory for execution planning and management.
+The driver needs to store intermediate data structures or collect a large amount of data from executors.
+
+The driver memory should be lower when:
+
+- Your Spark application is simple and has minimal coordination or collection tasks.
+The driver performs lightweight operations, and the primary computational tasks are executed in the executors.
+
+**Executor Memory**: Think of the executor as the "worker bees" of your Spark application. Executors are responsible for performing the actual data processing and computation tasks. Executor memory is the amount of memory allocated to each executor process to store intermediate data, cached data, and execution buffers.
+
+- Impact: If the executor memory is too low, it may lead to frequent data spilling onto the disk, which slows down processing. If it's too high, it can cause resource contention with other processes on the cluster and affect overall application performance.
+
+The executor's memory should be higher when:
+
+- Your Spark application processes large-scale datasets that require substantial memory for intermediate results and execution buffers.
+Complex transformations or aggregations are performed, which involve data shuffling and storage.
+
+The executor's memory should be lower when:
+
+- Your Spark application processes smaller datasets that do not require a large memory footprint for intermediate data or execution buffers.
+The computational tasks are relatively simple, and there is no need for a significant amount of memory for data processing.
+
+In Summary:
+
+Driver Memory is responsible for managing the overall job and result collection.
+Executor Memory performs the actual data processing tasks on distributed data.
+
+Article [source](https://www.linkedin.com/pulse/roles-driver-memory-executor-spark-impact-big-data-processing-dip/) for driver and executor memory.
+
 Since, we are not lauching our session from the user terminal the notebook does not have access to the environment variables present in user's `.bashrc`. So, in order to get around this and not to hard code the passwords, the below block of code is used.
 
 ```
@@ -247,7 +284,7 @@ avg_df.show()
 The code shown below write the `splitDF` as a single partioned csv file to a S3 bucket. The `coalesce(1)` option is used to coalesce all partitions into one, by removing it the spark may write the csv as multiple partitions.
 
 ```
-splitDF.coalesce(1).write.mode("overwrite").option("header","true").csv("s3a://yourbucketname/hubtest1.csv")
+splitDF.write.mode("overwrite").option("header","true").csv("s3a://yourbucketname/hubtest1.csv")
 ```
 
 You can check the contents of the bucket by logging into Minio @ https://system54.rice.iit.edu/minio/ui/browser with your credentials ,which will be stored in `creds.txt` in the home directory.
