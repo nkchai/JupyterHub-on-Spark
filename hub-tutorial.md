@@ -157,6 +157,9 @@ conf.set('spark.hadoop.fs.s3a.committer.name','magic')
 conf.set("spark.hadoop.fs.s3a.endpoint", "http://system54.rice.iit.edu")
 # Send jobs to the Spark Cluster
 conf.setMaster("spark://sm.service.consul:7077")
+#Set driver and executor memory
+conf.set("spark.driver.memory","4g")
+conf.set("spark.executor.memory","4g")
 
 spark = SparkSession.builder.appName("Your App Name")\
     .config('spark.driver.host','spark-edge.service.consul').config(conf=conf).getOrCreate()
