@@ -316,7 +316,7 @@ test()
 
 ### ***Note: You must stop your session before closing the notebook with `spark.stop()`, if you didn't have any spark jobs running. This helps to free up resources assigned to your job, such that other jobs in the queue can make use of them.***
 
-## Test 4 - Spark Dynamic Allocation
+## Spark Dynamic Allocation
 
 The default form of resource allocation is  static resource allocation i.e resources are assigned when start the session, and removed after your session is stopped/killed. 
 
