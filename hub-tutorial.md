@@ -123,7 +123,7 @@ Access MinIO @ https://system54.rice.iit.edu/minio/ui/browser
 
 Run the below snippet of code in a cell to create a spark session on the spark master with connection to the Minio Bucket.
 
-```
+```python
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
 
@@ -207,7 +207,7 @@ Article [source](https://www.linkedin.com/pulse/roles-driver-memory-executor-spa
 
 Since, we are not lauching our session from the user terminal the notebook does not have access to the environment variables present in user's `.bashrc`. So, in order to get around this and not to hard code the passwords, the below block of code is used.
 
-```
+```python
 try:
     creds_file = (open(f"/home/{os.getenv('USER')}/creds.txt", "r")).read().strip().split(",")
     accesskey,secretkey = creds_file[0],creds_file[1]
@@ -222,7 +222,7 @@ Now, you can make use of the `SparkSession` object created in this case `spark`,
 
 Once you create a session spark master will ***treat it as a job and assigns resources***. You need to stop the session as shown below to create a new session or once your job is completed.
 
-```
+```python
 spark.stop()
 ```
 **It is recommended that you restart the kernel once you stop the session before starting a new session by clicking restart kernel situtated right of stop button (or) from kernel menu, as it clears all the cached variables.**
@@ -231,7 +231,7 @@ spark.stop()
 
 The default log level is "WARN".If you want more clearer logs as seen in terminal, then after creating the session run the below lines in a new cell.
 
-```
+```python
 sc = spark.sparkContext
 sc.setLogLevel("INFO")
 ```
@@ -240,7 +240,7 @@ sc.setLogLevel("INFO")
 
 The below code snipped is a sample pyspark code that the will read csv file 50.txt and do some transformations stored as splitDF
 
-```
+```python
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
 
@@ -272,7 +272,7 @@ splitDF.show()
 ```
 In another cell, run the following code which will give us the average temperature and standard deviation per month, per year.
 
-```
+```python
 avg_df = splitDF.select(month(col('ObservationDate')).alias('Month'),year(col('ObservationDate')).alias('Year'),col('AirTemperature').alias('Temperature'))\
              .groupBy('Month','Year').agg(avg('Temperature'),stddev('Temperature')).orderBy('Year','Month')
 
@@ -283,7 +283,7 @@ avg_df.show()
     
 The code shown below write the `splitDF` as a single partioned csv file to a S3 bucket. The `coalesce(1)` option is used to coalesce all partitions into one, by removing it the spark may write the csv as multiple partitions.
 
-```
+```python
 splitDF.write.mode("overwrite").option("header","true").csv("s3a://yourbucketname/hubtest1.csv")
 ```
 
@@ -300,7 +300,7 @@ If the job submitted takes some time to run we can generally use nohup to redire
 
 Run the below code in a new cell. `%%capture test` has been added in the first line. 
 
-```
+```python
 %%capture test
 avg_df = splitDF.select(month(col('ObservationDate')).alias('Month'),year(col('ObservationDate')).alias('Year'),col('AirTemperature').alias('Temperature'))\
              .groupBy('Month','Year').agg(avg('Temperature'),stddev('Temperature')).orderBy('Year','Month')
@@ -310,7 +310,7 @@ avg_df.show()
 
 You can close your notebook and re login after the job has completed. To check your output by calling `test` as shown below.
 
-```
+```python
 test()
 ```
 
@@ -331,7 +331,7 @@ This test will helps us to compare both static and dynamic allocation.
 
 Creating a new spark session with dynamic allocation enabled with the below snippet of code.
 
-```
+```python
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
 
